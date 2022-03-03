@@ -4,14 +4,15 @@ import java.util.Scanner;
 
 public class Main {
     Scanner keyboard = new Scanner(System.in);
-    char[] alphabet = " ABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ ABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ".toCharArray();
+    char[] alphabet = " ABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ".toCharArray();
 
     public static void main(String[] args) {
 
-	Main obj=new Main();
-    obj.execute();
+        Main obj = new Main();
+        obj.execute();
     }
-    public void execute(){
+
+    public void execute() {
         Scanner keyboard = new Scanner(System.in);
         mainMenu();
 
@@ -20,28 +21,55 @@ public class Main {
 
     //menu vælger
     //hoved menu,men hviken krypterings stil
-    public void mainMenu(){
-        System.out.println("Main menu, what encryption type is it?");
+    public void mainMenu() {
+        System.out.printf("\nMain menu, what encryption type is it?\n");
         System.out.println("1: Caesar cipher");
-        caesarMenu();
+        System.out.println("3: exit");
+        String answer = keyboard.nextLine();
+        if (answer.equals("1")){
+            caesarMenu();
+        }else if (answer.equals("3")){
+            System.out.println("thank you, goodbye");
+        }
+
 
     }
-    //caesar menu
-    public void caesarMenu(){
-        System.out.println("do you wanna encrypt or decrypt?");
 
-        //encrypt
+    //caesar menu
+    public void caesarMenu() {
+        System.out.println("do you wanna encrypt or decrypt?");
+        System.out.println("1 for encrypt 2 for decrypt 3 for going back to the main menu");
+        String answer = keyboard.nextLine();
+        if (answer.equals("1")) {
+            caesarEncryptMenu();
+        } else if (answer.equals("2")) {
+            caesarDecryptMenu();
+        } else if (answer.equals("3")) {
+            mainMenu();
+        }
+        mainMenu();
+    }
+
+    //encrypt
+    public void caesarEncryptMenu() {
         System.out.println("What is the message?");
         String message = keyboard.nextLine();
         System.out.println("What is your shift value?");
-        int shift= keyboard.nextInt();
+        int shift = keyboard.nextInt();
         caesarEncryption(message, shift);
 
-        //decrypt -//-
 
     }
-    //tilbage til hovede menu
-    //krypter eller dekrypter
+
+    public void caesarDecryptMenu() {
+        System.out.println("What is the message?");
+        String message = keyboard.nextLine();
+        System.out.println("What is your shift value?");
+        int shift = keyboard.nextInt();
+        caesarDecryption(message,shift);
+
+
+    }
 
     //string modtager
     /*public String messageReciever (String message){
@@ -49,51 +77,64 @@ public class Main {
         return message;
         }*/
 
-
+//print
 
     //krypter
-    public void caesarEncryption(String message,int shifvalue){
-        for (int i = 0; i <message.length()-1; i++) {
+    public void caesarEncryption(String message, int shiftvalue) {
+        for (int i = 0; i < message.length(); i++) {
             char letter;
             char letterEncrypted;
             int number;
-            letter =message.charAt(i);
-            number=letterToNumber(letter);
-            letterEncrypted=numberToLetter(number+shifvalue);
+            letter = message.charAt(i);
+            number = letterToNumber(letter);
+            int shiftedValue = applyShift(number, shiftvalue);
+            letterEncrypted = numberToLetter(shiftedValue);
             System.out.print(letterEncrypted);
         }
     }
-//dekrypter
-public void caesarDecryption(String message){
-    for (int i = 0; i <message.length() ; i++) {
-        char letter;
-        int number;
-        letter =message.charAt(i);
-        number=letterToNumber(letter);
-        numberToLetter(number-3);
-        System.out.print(numberToLetter(number-3));
-    }
-}
-    //alfabet
 
-    //number2letter
-    public char numberToLetter(int number){
+    //dekrypter
+    public void caesarDecryption(String message, int shiftvalue) {
+        for (int i = 0; i < message.length(); i++) {
+            char letter;
+            char letterEncrypted;
+            int number;
+            letter = message.charAt(i);
+            number = letterToNumber(letter);
+            int shiftedValue = applyShift(number, -shiftvalue);
+            letterEncrypted = numberToLetter(shiftedValue);
+            System.out.print(letterEncrypted);
+        }
+    }
+
+
+    public char numberToLetter(int number) {
         char letter = alphabet[number];
         return letter;
     }
 
-    //letter2number
+
     public int letterToNumber(char letter) {
         letter = Character.toUpperCase(letter);
-        int number=-1;
-        for (int i = 30; i < alphabet.length; i++) {
-            if(alphabet[i]==letter){
+        int number = -1;
+        for (int i = 0; i < alphabet.length; i++) {
+            if (alphabet[i] == letter) {
                 return i;
 
             }
         }
 
         return number;
+    }
+
+    public int applyShift(int indexLetter, int shift) {
+        int shifted = indexLetter + shift;
+        if (shifted > 28) {
+            shifted = shifted % alphabet.length + 1;
+        } else if (shifted <= 0) {
+            shifted += 28;
+        }
+        return shifted;
     }
 }
 
