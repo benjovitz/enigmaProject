@@ -5,21 +5,15 @@ import java.util.Scanner;
 public class Main {
     Scanner keyboard = new Scanner(System.in);
     char[] alphabet = " ABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ".toCharArray();
+    //char[] alphabet = " ABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ ABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ".toCharArray();
 
     public static void main(String[] args) {
 
         Main obj = new Main();
-        obj.execute();
+        obj.mainMenu();
     }
 
-    public void execute() {
-        Scanner keyboard = new Scanner(System.in);
-        mainMenu();
 
-
-    }
-
-    //menu vælger
     //hoved menu,men hviken krypterings stil
     public void mainMenu() {
         System.out.printf("\nMain menu, what encryption type is it?\n");
@@ -35,7 +29,7 @@ public class Main {
 
     }
 
-    //caesar menu
+    //caesar menu, om der skal krypteres eller dekrypteres
     public void caesarMenu() {
         System.out.println("do you wanna encrypt or decrypt?");
         System.out.println("1 for encrypt 2 for decrypt 3 for going back to the main menu");
@@ -50,7 +44,6 @@ public class Main {
         mainMenu();
     }
 
-    //encrypt
     public void caesarEncryptMenu() {
         System.out.println("What is the message?");
         String message = keyboard.nextLine();
@@ -79,7 +72,7 @@ public class Main {
 
 //print
 
-    //krypter
+    //krypter mekanisme
     public void caesarEncryption(String message, int shiftvalue) {
         for (int i = 0; i < message.length(); i++) {
             char letter;
@@ -93,7 +86,7 @@ public class Main {
         }
     }
 
-    //dekrypter
+    //dekrypter mekanisme
     public void caesarDecryption(String message, int shiftvalue) {
         for (int i = 0; i < message.length(); i++) {
             char letter;
